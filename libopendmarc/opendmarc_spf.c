@@ -163,13 +163,14 @@ opendmarc_spf2_test(char *ip_address, char *mail_from_domain, char *helo_domain,
 		return DMARC_POLICY_SPF_OUTCOME_TMPFAIL;
 	}
 
-	ret = opendmarc_spf2_find_mailfrom_domain(ctx, mail_from_domain, mfrom, sizeof mfrom, used_mfrom);
-	if (ret != 0 || *used_mfrom == FALSE)
+	if (helo_domain != NULL)
 	{
 		(void) strlcpy(helo, helo_domain, sizeof helo);
 		SPF_request_set_helo_dom(ctx->spf_request, helo);
 	}
-	else
+
+	ret = opendmarc_spf2_find_mailfrom_domain(ctx, mail_from_domain, mfrom, sizeof mfrom, used_mfrom);
+	if (ret == 0 && *used_mfrom == TRUE)
 	{
 		SPF_request_set_env_from(ctx->spf_request, mfrom);
 	}
