@@ -4,6 +4,18 @@
 #
 # Script to read DMARC aggregate reports and put summary info
 # into a database
+#
+# WARNING: This script is not actively maintained and has several known
+# limitations:
+#
+#   - Uses XML::Simple, which is deprecated; reports with unusual structure
+#     may parse incorrectly
+#   - Hardcodes DBI:mysql:, so it does not work with MariaDB
+#   - Does not capture several RFC 7489 fields from inbound reports:
+#     envelope_from, header_from, SPF scope, DKIM selector, fo, adkim,
+#     aspf, pct
+#
+# Patches welcome.
 
 # Options:
 # -d print debug info
