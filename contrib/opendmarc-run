@@ -19,6 +19,13 @@ DBSCHEME=mysql
 DOMAIN=example.com
 WORKDIR=/var/db/opendmarc
 
+# SMTP authentication.  Leave SMTPUSER and SMTPPASSWD empty for unauthenticated
+# submission (the default, suitable for a local MTA on 127.0.0.1:25).
+# Set SMTPSSL=--smtp-ssl when connecting to a server that requires SSL/TLS.
+SMTPUSER=
+SMTPPASSWD=
+SMTPSSL=
+
 DBOPTS="--dbhost=${DBHOST} --dbuser=${DBUSER} --dbpasswd=${DBPASSWD} --dbscheme=${DBSCHEME}"
 
 # Rotate the history file atomically before importing so that opendmarc
@@ -31,4 +38,7 @@ fi
 
 ${EXPIRE} ${DBOPTS}
 
-${REPORTS} ${DBOPTS} --domain ${DOMAIN} --workdir ${WORKDIR}
+${REPORTS} ${DBOPTS} ${DOMAIN:+--domain ${DOMAIN}} --workdir ${WORKDIR} \
+    ${SMTPUSER:+--smtp-username ${SMTPUSER}} \
+    ${SMTPPASSWD:+--smtp-password ${SMTPPASSWD}} \
+    ${SMTPSSL}
