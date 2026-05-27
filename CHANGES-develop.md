@@ -93,6 +93,12 @@ CREATE TABLE IF NOT EXISTS suppressions (
 
 ---
 
+## Reporting script enhancements
+
+- **Runtime duration logged at termination**: When `--verbose` is set, `opendmarc-expire` and `opendmarc-reports` now include the total elapsed time in their terminating log message (e.g. `duration=42s`). (#339, issue #280)
+
+---
+
 ## Build system and portability
 
 - **`opendmarc-spf-parse.c` missing from `Makefile.am`**: The Received-SPF parser source file added in the crash fixes was not listed in `opendmarc_SOURCES`, causing a link failure on clean builds. (#335, issue #334)
