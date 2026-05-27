@@ -93,6 +93,12 @@ CREATE TABLE IF NOT EXISTS suppressions (
 
 ---
 
+## Packaging and deployment
+
+- **systemd service unit overhauled**: Switched from `Type=forking`/`PIDFile` to `Type=simple` with `-f` (foreground), eliminating the PIDFile race condition. Added `network-online.target`, `Before=` ordering for common MTAs, `Restart=on-abnormal`, `RuntimeDirectory`, and a full systemd hardening block (`ProtectSystem=strict`, `PrivateUsers`, `SystemCallFilter`, etc.). (#340, issue #208)
+
+---
+
 ## Build system and portability
 
 - **`opendmarc-spf-parse.c` missing from `Makefile.am`**: The Received-SPF parser source file added in the crash fixes was not listed in `opendmarc_SOURCES`, causing a link failure on clean builds. (#335, issue #334)
